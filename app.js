@@ -1,10 +1,13 @@
 const express = require('express');
+const fs = require('fs');
 const app = express();
 const multer = require('multer');
+const moment = require('moment');
+const { execSync } = require('child_process');
 
 const storage = multer.diskStorage({
   destination: './uploads',
-  filename: (req, file, cb) => cb(null, file.fieldname + '-' + Date.now()),
+  filename: (req, file, cb) => cb(null, file.originalname),
 });
 
 const upload = multer({ storage });

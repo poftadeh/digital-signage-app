@@ -15,12 +15,22 @@
       class="form"
     >
       <div class="form__group">
+        <input type="radio" name="signNumber" value="1" checked />
+        <label for="upload-pdf">Sign 1</label>
+
+        <input type="radio" name="signNumber" value="2" />
+        <label for="upload-pdf">Sign 2</label>
+
+        <input type="radio" name="signNumber" value="3" />
+        <label for="upload-pdf">Sign 3</label>
+      </div>
+      <div class="form__group">
         <label for="upload-pdf">PDF:</label>
         <input type="file" name="upload-pdf" />
       </div>
       <div class="form__group">
         <label for="interval">Interval:</label>
-        <input type="number" name="interval" min="0" value="100" required/>
+        <input type="number" name="interval" min="0" value="100" required />
       </div>
       <div class="form__group">
         <label for="transition">Transition:</label>
