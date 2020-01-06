@@ -25,6 +25,10 @@ body {
   padding: 4rem;
 }
 
+select{
+  width: 20rem;
+}
+
 .form__group:not(:last-child) {
   margin-bottom: 3rem;
 }
