@@ -7,6 +7,7 @@ const app = express();
 const zip = new AdmZip();
 const upload = multer();
 
+app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
@@ -23,7 +24,6 @@ app.get('/', (req, res) => {
 });
 
 app.post('/upload', upload.single('upload-pdf'), (req, res) => {
-  console.log('submitted!', req.file, JSON.stringify(req.body));
   zip.addFile(req.file.originalname, req.file.buffer);
   zip.addFile(
     'options.txt',
@@ -35,6 +35,10 @@ app.post('/upload', upload.single('upload-pdf'), (req, res) => {
     )}.zip`,
   );
   res.sendStatus(200);
+});
+
+app.post('/update', (req, res) => {
+  res.json(req.params);
 });
 
 app.use((err, req, res, next) => {
