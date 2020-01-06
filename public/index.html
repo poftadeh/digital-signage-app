@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <link rel="stylesheet" href="./main.css" />
-    <title>Document</title>
+    <title>Digital Signage Web Form</title>
   </head>
   <body>
-    <form action="#" class="form">
+    <form
+      action="/upload"
+      enctype="multipart/form-data"
+      method="POST"
+      class="form"
+    >
+      <div class="form__group">
+        <label for="upload">PDF:</label>
+        <input type="file" id="upload" />
+      </div>
       <div class="form__group">
         <label for="interval">Interval:</label>
         <input type="text" id="interval" />
@@ -75,6 +84,10 @@
             corner</option
           >
         </select>
+      </div>
+
+      <div class="form__group">
+        <button>Submit</button>
       </div>
     </form>
   </body>
