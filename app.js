@@ -1,7 +1,14 @@
 const express = require('express');
 const app = express();
+const multer = require('multer');
 
-app.use(express.json());
+const storage = multer.diskStorage({
+  destination: './uploads',
+  filename: (req, file, cb) => cb(null, file.fieldname + '-' + Date.now()),
+});
+
+const upload = multer({ storage });
+
 app.use(express.static(`${__dirname}/public`));
 
 app.use((req, res, next) => {
@@ -15,9 +22,9 @@ app.use((req, res, next) => {
 
 app.get('/', (req, res) => res.sendFile('index.html'));
 
-app.post('/upload', (req, res) => {
-  console.log('submitted!');
-  res.send('done');
+app.post('/upload', upload.single('upload-pdf'), (req, res) => {
+  console.log('submitted!', req.file, JSON.stringify(req.body));
+  res.json(req.body);
 });
 
 app.use((err, req, res, next) => {

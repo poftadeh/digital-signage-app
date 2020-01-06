@@ -15,16 +15,16 @@
       class="form"
     >
       <div class="form__group">
-        <label for="upload">PDF:</label>
-        <input type="file" id="upload" />
+        <label for="upload-pdf">PDF:</label>
+        <input type="file" name="upload-pdf" />
       </div>
       <div class="form__group">
         <label for="interval">Interval:</label>
-        <input type="text" id="interval" />
+        <input type="number" name="interval" min="0" value="100" required/>
       </div>
       <div class="form__group">
         <label for="transition">Transition:</label>
-        <select id="transition">
+        <select name="transition">
           <option value="None">None - no transition</option>
           <option value="Crossfade">Crossfade - simple crossfade</option>
           <option value="FadeOutFadeIn"
