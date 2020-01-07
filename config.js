@@ -1,2 +1,2 @@
-exports.basicAuthCredentials = { username: 'foo', password: 'bar' };
-exports.updatePassword = 'foobar';
+exports.basicAuthCredentials = { username: 'password' };
+exports.updatePassword = 'password';

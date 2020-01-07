@@ -2,6 +2,7 @@ const express = require('express');
 const multer = require('multer');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
+const basicAuth = require('express-basic-auth');
 const fs = require('fs').promises;
 
 const app = express();
@@ -14,17 +15,10 @@ const getMostRecentSignTimestamp = async signNumber => {
   return Math.max(...files.map(file => file.split('.')[0]));
 };
 
+app.use(basicAuth({ challenge: true, users: basicAuthCredentials }));
+
 app.use(express.json());
 app.use(express.static(`${__dirname}/public`));
-
-app.use((req, res, next) => {
-  console.log(
-    `Method: '${req.method}', URL: ${req.originalUrl}, Body: ${JSON.stringify(
-      req.body,
-    )}`,
-  );
-  next();
-});
 
 app.get('/', (req, res) => {
   res.sendFile('index.html');
@@ -64,7 +58,9 @@ app.get('/update', async (req, res, next) => {
   });
 
   if (currentSignArchiveTimestamp > timestamp) {
-    res.download(`./archives/sign${signnumber}/${currentSignArchiveTimestamp}.zip`);
+    res.download(
+      `./archives/sign${signnumber}/${currentSignArchiveTimestamp}.zip`,
+    );
   } else {
     res.sendStatus(304);
   }
