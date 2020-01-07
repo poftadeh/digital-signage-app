@@ -3,24 +3,55 @@ const multer = require('multer');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
 const basicAuth = require('express-basic-auth');
-const fs = require('fs').promises;
+const pdf = require('pdf-thumbnail');
+const fs = require('fs');
 
 const app = express();
 const zip = new AdmZip();
 const upload = multer();
 const { basicAuthCredentials, updatePassword } = require('./config');
+const NUMBER_OF_SIGNS = 3;
 
-const getMostRecentSignTimestamp = async signNumber => {
-  const files = await fs.readdir(`./archives/sign${signNumber}`);
-  return Math.max(...files.map(file => file.split('.')[0]));
+const getMostRecentSignTimestamp = signNumber => {
+  return new Promise((resolve, reject) => {
+    fs.readdir(`./archives/sign${signNumber}`, (err, files) => {
+      if (err) reject(err);
+      resolve(Math.max(...files.map(file => file.split('.')[0])));
+    });
+  });
+};
+
+const generateThumbnail = (pathToPdf, signNumber) => {
+  return pdf(fs.readFileSync(pathToPdf))
+    .then(data =>
+      data.pipe(
+        fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
+      ),
+    )
+    .catch(err => console.error(err));
+};
+
+const generateAllThumbnails = async () => {
+  for (let signNumber = 1; signNumber <= NUMBER_OF_SIGNS; signNumber++) {
+    try {
+      const timestamp = await getMostRecentSignTimestamp(signNumber);
+      await generateThumbnail(`./archives/sign${signNumber}/${timestamp}.zip`);
+    } catch (e) {
+      console.log(e);
+      fs.copyFileSync(
+        './public/thumbnails/default.jpg',
+        `./public/thumbnails/${signNumber}-thumb.jpg`,
+      );
+    }
+  }
 };
 
 app.use(basicAuth({ challenge: true, users: basicAuthCredentials }));
 
 app.use(express.json());
-app.use(express.static(`${__dirname}/public`));
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+  await generateAllThumbnails();
   res.sendFile('index.html');
 });
 
@@ -46,7 +77,7 @@ app.get('/update', async (req, res, next) => {
     next();
   }
 
-  if (signnumber < 1 || signnumber > 3) {
+  if (signnumber < 1 || signnumber > NUMBER_OF_SIGNS) {
     res.status(400).send('sign must be an integer from 1 to 3');
     next();
   }
