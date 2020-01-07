@@ -15,26 +15,33 @@
       class="form"
     >
       <div class="form__group">
-        <input type="radio" name="signNumber" value="1" checked />
-        <label for="upload-pdf">Sign 1</label>
+        <input type="radio" id="sign1" name="signNumber" value="1" checked />
+        <label for="sign1">Sign 1</label>
 
-        <input type="radio" name="signNumber" value="2" />
-        <label for="upload-pdf">Sign 2</label>
+        <input type="radio" id="sign2" name="signNumber" value="2" />
+        <label for="sign2">Sign 2</label>
 
-        <input type="radio" name="signNumber" value="3" />
-        <label for="upload-pdf">Sign 3</label>
+        <input type="radio" id="sign3" name="signNumber" value="3" />
+        <label for="sign3">Sign 3</label>
       </div>
       <div class="form__group">
         <label for="upload-pdf">PDF:</label>
-        <input type="file" name="upload-pdf" />
+        <input type="file" id="upload-pdf" name="upload-pdf" />
       </div>
       <div class="form__group">
         <label for="interval">Interval:</label>
-        <input type="number" name="interval" min="0" value="100" required />
+        <input
+          type="number"
+          id="interval"
+          name="interval"
+          min="0"
+          value="100"
+          required
+        />
       </div>
       <div class="form__group">
         <label for="transition">Transition:</label>
-        <select name="transition">
+        <select id="transition" name="transition">
           <option value="None">None - no transition</option>
           <option value="Crossfade">Crossfade - simple crossfade</option>
           <option value="FadeOutFadeIn"
