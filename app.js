@@ -34,7 +34,7 @@ app.post('/upload', upload.single('upload-pdf'), (req, res) => {
       'YYYYMMDDhhmmss',
     )}.zip`,
   );
-  res.sendStatus(200);
+  res.end();
 });
 
 app.post('/update', (req, res) => {
