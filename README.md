@@ -1,6 +1,6 @@
 ### Setting Up Credentials for Basic Auth
 
-1. in the file `credentials.json`, replace `username` and `password` with the desired log in information. 
+1. in the file `credentials.json`, replace `"username"` and `"password"` with the desired log in information. 
 
 ### Running the App
 
