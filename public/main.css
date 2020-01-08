@@ -46,6 +46,9 @@ section {
   border-radius: 3px;
   box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.15);
   -webkit-transform: skewY(10deg);
+  color: #2980b9;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .form__inputs {
@@ -94,6 +97,7 @@ section {
 }
 
 figcaption {
+  font-weight: 600;
   text-align: center;
 }
 
@@ -120,8 +124,22 @@ figcaption {
   background-color: rgb(23, 61, 117);
 }
 
+
+
+@media only screen and (min-width: 2200px) {
+  .form {
+    width: 30%;
+  }
+}
+
 @media only screen and (max-width: 600px) {
   .form {
     width: 75%;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  .form {
+    width: 90%;
   }
 }
