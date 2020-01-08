@@ -36,14 +36,14 @@ const generateThumbnail = async (buffer, signNumber) => {
     .then(() => console.log('generated ', signNumber));
 };
 
-app.use(basicAuth({ challenge: true, users: credentials }));
+app.get('/', basicAuth({ challenge: true, users: credentials }));
+app.get('/', async (req, res, next) => {
+  //await generateAllThumbnails().catch(error => next(error));
+  next();
+});
+
 app.use(express.static('public'));
 app.use(express.json());
-
-app.get('/', async (req, res, next) => {
-  // await generateAllThumbnails().catch(error => next(error));
-  res.sendFile(path.join(__dirname, 'public/index.html'));
-});
 
 app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
   console.log('FILE=', req.file);
