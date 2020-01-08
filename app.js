@@ -1,22 +1,27 @@
 const express = require('express');
+const path = require('path');
 const multer = require('multer');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
 const basicAuth = require('express-basic-auth');
 const pdf = require('pdf-thumbnail');
 const fs = require('fs');
+const credentials = require('./credentials.json');
 
 const app = express();
 const zip = new AdmZip();
 const upload = multer();
-const { basicAuthCredentials, updatePassword } = require('./config');
 const NUMBER_OF_SIGNS = 3;
 
 const getMostRecentSignTimestamp = signNumber => {
   return new Promise((resolve, reject) => {
     fs.readdir(`./archives/sign${signNumber}`, (err, files) => {
-      if (err) reject(err);
-      resolve(Math.max(...files.map(file => file.split('.')[0])));
+      console.log(err, files);
+      if (err) {
+        reject(err);
+      } else {
+        resolve(Math.max(...files.map(file => file.split('.')[0])));
+      }
     });
   });
 };
@@ -39,59 +44,57 @@ const generateAllThumbnails = async () => {
     } catch (e) {
       console.log(e);
       fs.copyFileSync(
-        './public/thumbnails/default.jpg',
-        `./public/thumbnails/${signNumber}-thumb.jpg`,
+        `${__dirname}/public/thumbnails/default.jpg`,
+        `${__dirname}/public/thumbnails/${signNumber}-thumb.jpg`,
       );
     }
   }
 };
 
-app.use(basicAuth({ challenge: true, users: basicAuthCredentials }));
-
+app.use(basicAuth({ challenge: true, users: credentials }));
+app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json());
 
-app.get('/', async (req, res) => {
-  await generateAllThumbnails();
+app.get('/', async (req, res, next) => {
+  await generateAllThumbnails().catch(error => next(error));
   res.sendFile('index.html');
 });
 
 app.post('/upload', upload.single('upload-pdf'), (req, res) => {
   zip.addFile(req.file.originalname, req.file.buffer);
+
   zip.addFile(
     'options.txt',
     `Transition=${req.body.transition}\nAdvance=${req.body.interval}`,
   );
+
   zip.writeZip(
     `./archives/sign${req.body.signNumber}/${moment().format(
       'YYYYMMDDhhmmss',
     )}.zip`,
   );
-  res.end();
+
+  res.redirect('/');
 });
 
 app.get('/update', async (req, res, next) => {
-  const { password, signnumber, timestamp } = req.query;
+  const { sign, timestamp } = req.query;
 
-  if (password !== updatePassword) {
-    res.status(401).send('Password is invalid.');
-    next();
-  }
-
-  if (signnumber < 1 || signnumber > NUMBER_OF_SIGNS) {
-    res.status(400).send('sign must be an integer from 1 to 3');
+  if (sign < 1 || sign > NUMBER_OF_SIGNS) {
+    res
+      .status(400)
+      .send(`sign must be an integer from 1 to ${NUMBER_OF_SIGNS}`);
     next();
   }
 
   const currentSignArchiveTimestamp = await getMostRecentSignTimestamp(
-    signnumber,
+    sign,
   ).catch(error => {
     next(error);
   });
 
   if (currentSignArchiveTimestamp > timestamp) {
-    res.download(
-      `./archives/sign${signnumber}/${currentSignArchiveTimestamp}.zip`,
-    );
+    res.download(`./archives/sign${sign}/${currentSignArchiveTimestamp}.zip`);
   } else {
     res.sendStatus(304);
   }
