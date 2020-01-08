@@ -65,7 +65,7 @@ app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
     )}.zip`,
   );
 
-  res.redirect('/');
+  res.sendStatus(204);
 });
 
 app.get('/update', async (req, res, next) => {

@@ -177,9 +177,15 @@
       </form>
     </section>
     <script>
-      function handleSubmit(e) {
-        console.log('handled');
-        location.reload(true);
+      async function handleSubmit(e) {
+        e.preventDefault();
+        const response = await fetch('/upload', {
+          method: 'POST',
+          body: new FormData(e.target),
+        });
+        console.log(await response.text());
+        // location.reload(true);
+        //setTimeout(() => location.reload(true), 1000);
       }
     </script>
   </body>
