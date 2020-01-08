@@ -61,6 +61,9 @@ app.get('/', async (req, res, next) => {
 });
 
 app.post('/upload', upload.single('upload-pdf'), (req, res) => {
+  if (req.file.originalname.split('.')[1] !== 'pdf') {
+    throw new Error('Uploaded file must be a PDF');
+  }
   zip.addFile(req.file.originalname, req.file.buffer);
 
   zip.addFile(
@@ -102,7 +105,7 @@ app.get('/update', async (req, res, next) => {
 
 app.use((err, req, res, next) => {
   const { statusCode, status } = err;
-  res.status(statusCode || 500).json({
+  res.status(statusCode || 500).send({
     status: status || 'error',
     message: err.message,
   });
