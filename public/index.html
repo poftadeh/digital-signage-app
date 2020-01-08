@@ -16,52 +16,59 @@
       <form
         action="/upload"
         enctype="multipart/form-data"
+        onsubmit="handleSubmit(event)"
         method="POST"
         class="form"
       >
-        <div class="form__inputs">
-          <div class="form__group">
-            <div class="form__signs">
-              <input type="radio" id="sign1" name="signNumber" value="1" />
-              <label class="form__group-label" for="sign1"
-                ><figure>
-                  <img
-                    class="form__group-img"
-                    src="./thumbnails/1-thumb.jpg"
-                    alt="pdf thumbnail"
-                    onerror="this.src='./thumbnails/not-found.jpg';"
-                  />
-                </figure>
-                <figcaption>Sign 1</figcaption></label
-              >
+        <div class="form__group">
+          <div class="form__signs">
+            <input
+              type="radio"
+              id="sign1"
+              name="signNumber"
+              value="1"
+              checked
+            />
+            <label class="form__group-label" for="sign1"
+              ><figure>
+                <figcaption>Sign 1</figcaption>
+                <img
+                  class="form__group-img"
+                  src="./thumbnails/1-thumb.jpg"
+                  alt="pdf thumbnail"
+                  onerror="this.src='./thumbnails/not-found.jpg';"
+                />
+              </figure>
+            </label>
 
-              <input type="radio" id="sign2" name="signNumber" value="2" />
-              <label class="form__group-label" for="sign2"
-                ><figure>
-                  <img
-                    class="form__group-img"
-                    src="./thumbnails/2-thumb.jpg"
-                    alt="pdf thumbnail"
-                    onerror="this.src='./thumbnails/not-found.jpg';"
-                  />
-                </figure>
-                <figcaption>Sign 2</figcaption></label
-              >
+            <input type="radio" id="sign2" name="signNumber" value="2" />
+            <label class="form__group-label" for="sign2"
+              ><figure>
+                <figcaption>Sign 2</figcaption>
+                <img
+                  class="form__group-img"
+                  src="./thumbnails/2-thumb.jpg"
+                  alt="pdf thumbnail"
+                  onerror="this.src='./thumbnails/not-found.jpg';"
+                />
+              </figure>
+            </label>
 
-              <input type="radio" id="sign3" name="signNumber" value="3" />
-              <label class="form__group-label" for="sign3"
-                ><figure>
-                  <img
-                    class="form__group-img"
-                    src="./thumbnails/3-thumb.jpg"
-                    alt="pdf thumbnail"
-                    onerror="this.src='./thumbnails/not-found.jpg';"
-                  />
-                </figure>
-                <figcaption>Sign 3</figcaption></label
-              >
-            </div>
+            <input type="radio" id="sign3" name="signNumber" value="3" />
+            <label class="form__group-label" for="sign3"
+              ><figure>
+                <figcaption>Sign 3</figcaption>
+                <img
+                  class="form__group-img"
+                  src="./thumbnails/3-thumb.jpg"
+                  alt="pdf thumbnail"
+                  onerror="this.src='./thumbnails/not-found.jpg';"
+                />
+              </figure>
+            </label>
           </div>
+        </div>
+        <div class="form__inputs">
           <div class="form__group">
             <label for="upload-pdf">PDF:</label>
             <input
@@ -76,6 +83,7 @@
             <label for="interval">Interval:</label>
             <input
               type="number"
+              class="form__interval"
               id="interval"
               name="interval"
               min="0"
@@ -168,5 +176,11 @@
         </div>
       </form>
     </section>
+    <script>
+      function handleSubmit(e) {
+        console.log('handled');
+        location.reload(true);
+      }
+    </script>
   </body>
 </html>
