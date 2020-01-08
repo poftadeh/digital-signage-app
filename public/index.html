@@ -15,14 +15,43 @@
       class="form"
     >
       <div class="form__group">
-        <input type="radio" id="sign1" name="signNumber" value="1" checked />
-        <label for="sign1">Sign 1</label>
+        <div class="form__signs">
+          <input type="radio" id="sign1" name="signNumber" value="1" />
+          <label class="form__group-label" for="sign1"
+            ><figure>
+              <img
+                class="form__group-img"
+                src="./thumbnails/1-thumb.jpg"
+                alt=""
+              />
+            </figure>
+            <figcaption>Sign 1</figcaption></label
+          >
 
-        <input type="radio" id="sign2" name="signNumber" value="2" />
-        <label for="sign2">Sign 2</label>
+          <input type="radio" id="sign2" name="signNumber" value="2" />
+          <label class="form__group-label" for="sign2"
+          ><figure>
+            <img
+              class="form__group-img"
+              src="./thumbnails/2-thumb.jpg"
+              alt=""
+            />
+          </figure>
+          <figcaption>Sign 2</figcaption></label
+        >
 
-        <input type="radio" id="sign3" name="signNumber" value="3" />
-        <label for="sign3">Sign 3</label>
+          <input type="radio" id="sign3" name="signNumber" value="3" />
+          <label class="form__group-label" for="sign3"
+          ><figure>
+            <img
+              class="form__group-img"
+              src="./thumbnails/3-thumb.jpg"
+              alt=""
+            />
+          </figure>
+          <figcaption>Sign 3</figcaption></label
+        >
+        </div>
       </div>
       <div class="form__group">
         <label for="upload-pdf">PDF:</label>
@@ -47,7 +76,7 @@
       </div>
       <div class="form__group">
         <label for="transition">Transition:</label>
-        <select id="transition" name="transition">
+        <select class="form__group-select" id="transition" name="transition">
           <option value="None">None - no transition</option>
           <option value="Crossfade">Crossfade - simple crossfade</option>
           <option value="FadeOutFadeIn"

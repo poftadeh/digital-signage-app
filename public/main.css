@@ -17,6 +17,7 @@ body {
 }
 
 .form {
+  width: 60rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -25,10 +26,37 @@ body {
   padding: 4rem;
 }
 
-select {
+.form__group-select {
   width: 20rem;
 }
 
 .form__group:not(:last-child) {
   margin-bottom: 3rem;
+}
+
+.form__group input[type='radio'] {
+  outline: none;
+}
+
+.form__group-label {
+  cursor: pointer;
+  margin: 0 5rem 0 2rem;
+}
+
+.form__group-label:checked {
+  border: 2px solid green;
+}
+
+.form__group-img {
+  height: 100%;
+  width: 100%;
+}
+
+.form__signs {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+figcaption {
+  text-align: center;
 }
