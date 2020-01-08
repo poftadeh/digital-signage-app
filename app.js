@@ -16,7 +16,7 @@ const NUMBER_OF_SIGNS = 3;
 const getMostRecentSignTimestamp = signNumber => {
   return new Promise((resolve, reject) => {
     fs.readdir(`./archives/sign${signNumber}`, (err, files) => {
-      console.log(err, files);
+      console.log('err=', err, 'files=', files);
       if (err) {
         reject(err);
       } else {
@@ -26,23 +26,27 @@ const getMostRecentSignTimestamp = signNumber => {
   });
 };
 
-const generateThumbnail = (pathToPdf, signNumber) => {
-  return pdf(fs.readFileSync(pathToPdf))
+const generateThumbnail = async (path, signNumber) => {
+  await pdf(fs.readFileSync(path))
     .then(data =>
       data.pipe(
         fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
       ),
     )
-    .catch(err => console.error(err));
+    .then(() => console.log('generated ', signNumber));
 };
 
 const generateAllThumbnails = async () => {
   for (let signNumber = 1; signNumber <= NUMBER_OF_SIGNS; signNumber++) {
     try {
       const timestamp = await getMostRecentSignTimestamp(signNumber);
-      await generateThumbnail(`./archives/sign${signNumber}/${timestamp}.zip`);
+      console.log('timestamp=', timestamp);
+      await generateThumbnail(
+        `./archives/sign${signNumber}/${timestamp}.zip`,
+        signNumber,
+      );
     } catch (e) {
-      console.log(e);
+      console.log('error processing', signNumber, e);
       fs.copyFileSync(
         `${__dirname}/public/thumbnails/default.jpg`,
         `${__dirname}/public/thumbnails/${signNumber}-thumb.jpg`,
@@ -52,18 +56,21 @@ const generateAllThumbnails = async () => {
 };
 
 app.use(basicAuth({ challenge: true, users: credentials }));
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 app.use(express.json());
 
 app.get('/', async (req, res, next) => {
-  await generateAllThumbnails().catch(error => next(error));
-  res.sendFile('index.html');
+  // await generateAllThumbnails().catch(error => next(error));
+  res.sendFile(path.join(__dirname, 'public/index.html'));
 });
 
-app.post('/upload', upload.single('upload-pdf'), (req, res) => {
-  if (req.file.originalname.split('.')[1] !== 'pdf') {
+app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
+  console.log('FILE=', req.file);
+  if (req.file.mimetype !== 'application/pdf') {
     throw new Error('Uploaded file must be a PDF');
   }
+  fs.writeFileSync(`${req.body.signNumber}.pdf`, req.file.buffer);
+  await generateThumbnail(`./${req.body.signNumber}.pdf`, req.body.signNumber);
   zip.addFile(req.file.originalname, req.file.buffer);
 
   zip.addFile(
@@ -104,6 +111,7 @@ app.get('/update', async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
+  console.log('ERROR:', err);
   const { statusCode, status } = err;
   res.status(statusCode || 500).send({
     status: status || 'error',
