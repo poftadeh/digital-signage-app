@@ -9,6 +9,6 @@
 
 ### Endpoints
 
-/ (GET) - serves up the web form where PDFs, interval, and transition data may be uploaded for each sign.
+GET `/` - serves up the web form where PDFs, interval, and transition data may be uploaded for each sign.
 
-/ update (POST) - accepts `sign` and `timestamp` as query strings. 
+POST `/update` - accepts `sign` (an integer from 1-3) and `timestamp` (in YYYYMMDDhhmmss format) as query strings. 
