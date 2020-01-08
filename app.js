@@ -1,5 +1,4 @@
 const express = require('express');
-const path = require('path');
 const multer = require('multer');
 const moment = require('moment');
 const AdmZip = require('adm-zip');
@@ -26,19 +25,14 @@ const getMostRecentSignTimestamp = signNumber => {
 };
 
 const generateThumbnail = async (buffer, signNumber) => {
-  await pdf(buffer)
-    .then(data =>
-      data.pipe(
-        fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
-      ),
-    )
+  await pdf(buffer).then(data =>
+    data.pipe(
+      fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
+    ),
+  );
 };
 
 app.get('/', basicAuth({ challenge: true, users: credentials }));
-app.get('/', async (req, res, next) => {
-  //await generateAllThumbnails().catch(error => next(error));
-  next();
-});
 
 app.use(express.static('public'));
 app.use(express.json());
@@ -53,7 +47,7 @@ app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
 
   zip.addFile(
     'options.txt',
-    `Transition=${req.body.transition}\nAdvance=${req.body.interval}`,
+    `Transition=${req.body.transition}\nAdvance=${req.body.interval}\n`,
   );
 
   zip.writeZip(
