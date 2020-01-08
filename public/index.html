@@ -4,143 +4,166 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./main.css" />
     <title>Digital Signage Web Form</title>
   </head>
   <body>
-    <form
-      action="/upload"
-      enctype="multipart/form-data"
-      method="POST"
-      class="form"
-    >
-      <div class="form__group">
-        <div class="form__signs">
-          <input type="radio" id="sign1" name="signNumber" value="1" />
-          <label class="form__group-label" for="sign1"
-            ><figure>
-              <img
-                class="form__group-img"
-                src="./thumbnails/1-thumb.jpg"
-                alt=""
-              />
-            </figure>
-            <figcaption>Sign 1</figcaption></label
-          >
+    <section>
+      <form
+        action="/upload"
+        enctype="multipart/form-data"
+        method="POST"
+        class="form"
+      >
+        <div class="form__inputs">
+          <div class="form__group">
+            <div class="form__signs">
+              <input type="radio" id="sign1" name="signNumber" value="1" />
+              <label class="form__group-label" for="sign1"
+                ><figure>
+                  <img
+                    class="form__group-img"
+                    src="./thumbnails/1-thumb.jpg"
+                    alt=""
+                  />
+                </figure>
+                <figcaption>Sign 1</figcaption></label
+              >
 
-          <input type="radio" id="sign2" name="signNumber" value="2" />
-          <label class="form__group-label" for="sign2"
-          ><figure>
-            <img
-              class="form__group-img"
-              src="./thumbnails/2-thumb.jpg"
-              alt=""
-            />
-          </figure>
-          <figcaption>Sign 2</figcaption></label
-        >
+              <input type="radio" id="sign2" name="signNumber" value="2" />
+              <label class="form__group-label" for="sign2"
+                ><figure>
+                  <img
+                    class="form__group-img"
+                    src="./thumbnails/2-thumb.jpg"
+                    alt=""
+                  />
+                </figure>
+                <figcaption>Sign 2</figcaption></label
+              >
 
-          <input type="radio" id="sign3" name="signNumber" value="3" />
-          <label class="form__group-label" for="sign3"
-          ><figure>
-            <img
-              class="form__group-img"
-              src="./thumbnails/3-thumb.jpg"
-              alt=""
+              <input type="radio" id="sign3" name="signNumber" value="3" />
+              <label class="form__group-label" for="sign3"
+                ><figure>
+                  <img
+                    class="form__group-img"
+                    src="./thumbnails/3-thumb.jpg"
+                    alt=""
+                  />
+                </figure>
+                <figcaption>Sign 3</figcaption></label
+              >
+            </div>
+          </div>
+          <div class="form__group">
+            <label for="upload-pdf">PDF:</label>
+            <input
+              type="file"
+              id="upload-pdf"
+              name="upload-pdf"
+              accept=".pdf"
+              required
             />
-          </figure>
-          <figcaption>Sign 3</figcaption></label
-        >
+          </div>
+          <div class="form__group">
+            <label for="interval">Interval:</label>
+            <input
+              type="number"
+              id="interval"
+              name="interval"
+              min="0"
+              value="100"
+              required
+            />
+          </div>
+          <div class="form__group">
+            <label for="transition">Transition:</label>
+            <select
+              class="form__group-select"
+              id="transition"
+              name="transition"
+            >
+              <option value="None">None - no transition</option>
+              <option value="Crossfade">Crossfade - simple crossfade</option>
+              <option value="FadeOutFadeIn"
+                >FadeOutFadeIn - fade out to black and fade in again</option
+              >
+              <option value="PagePeel"
+                >PagePeel - an unrealistic, but nice page peel effect</option
+              >
+              <option value="SlideDown">SlideDown - slide downwards</option>
+              <option value="SlideLeft">SlideLeft - slide to the left</option>
+              <option value="SlideRight"
+                >SlideRight - slide to the right</option
+              >
+              <option value="SlideUp">SlideUp - slide upwards</option>
+              <option value="SqueezeDown"
+                >SqueezeDown - squeeze downwards</option
+              >
+              <option value="SqueezeLeft"
+                >SqueezeLeft - squeeze to the left</option
+              >
+              <option value="SqueezeRight"
+                >SqueezeRight - squeeze to the right</option
+              >
+              <option value="SqueezeUp">SqueezeUp - squeeze upwards</option>
+              <option value="WipeBlobs"
+                >WipeBlobs - wipe using nice "blob"-like patterns Works well
+                with a short Advance time</option
+              >
+              <option value="WipeBrightness1"
+                >WipeBrightness1 - wipe based on the current slide's
+                brightness</option
+              >
+              <option value="WipeBrightness2"
+                >WipeBrightness2 - wipe based on the next slide's
+                brightness</option
+              >
+              <option value="WipeCenterIn"
+                >WipeCenterIn - wipe from the corners inwards</option
+              >
+              <option value="WipeCenterOut"
+                >WipeCenterOut - wipe from the center outwards</option
+              >
+              <option value="WipeClouds"
+                >WipeClouds - wipe using cloud-like patterns</option
+              >
+              <option value="WipeDown">WipeDown - wipe downwards</option>
+              <option value="WipeDownLeft"
+                >WipeDownLeft - wipe from the upper-right to the lower-left
+                corner</option
+              >
+              <option value="WipeDownRight"
+                >WipeDownRight - wipe from the upper-left to the lower-right
+                corner</option
+              >
+              <option value="WipeLeft"
+                >WipeLeft - wipe from right to left</option
+              >
+              <option value="WipeRight"
+                >WipeRight - wipe from left to right</option
+              >
+              <option value="WipeUp">WipeUp - wipe upwards</option>
+              <option value="WipeUpLeft"
+                >WipeUpLeft - wipe from the lower-right to the upper-left
+                corner</option
+              >
+              <option value="WipeUpRight"
+                >WipeUpRight - wipe from the lower-left to the upper-right
+                corner</option
+              >
+            </select>
+          </div>
+
+          <div class="form__group ">
+            <button class="btn btn--submit">Upload</button>
+          </div>
         </div>
-      </div>
-      <div class="form__group">
-        <label for="upload-pdf">PDF:</label>
-        <input
-          type="file"
-          id="upload-pdf"
-          name="upload-pdf"
-          accept=".pdf"
-          required
-        />
-      </div>
-      <div class="form__group">
-        <label for="interval">Interval:</label>
-        <input
-          type="number"
-          id="interval"
-          name="interval"
-          min="0"
-          value="100"
-          required
-        />
-      </div>
-      <div class="form__group">
-        <label for="transition">Transition:</label>
-        <select class="form__group-select" id="transition" name="transition">
-          <option value="None">None - no transition</option>
-          <option value="Crossfade">Crossfade - simple crossfade</option>
-          <option value="FadeOutFadeIn"
-            >FadeOutFadeIn - fade out to black and fade in again</option
-          >
-          <option value="PagePeel"
-            >PagePeel - an unrealistic, but nice page peel effect</option
-          >
-          <option value="SlideDown">SlideDown - slide downwards</option>
-          <option value="SlideLeft">SlideLeft - slide to the left</option>
-          <option value="SlideRight">SlideRight - slide to the right</option>
-          <option value="SlideUp">SlideUp - slide upwards</option>
-          <option value="SqueezeDown">SqueezeDown - squeeze downwards</option>
-          <option value="SqueezeLeft">SqueezeLeft - squeeze to the left</option>
-          <option value="SqueezeRight"
-            >SqueezeRight - squeeze to the right</option
-          >
-          <option value="SqueezeUp">SqueezeUp - squeeze upwards</option>
-          <option value="WipeBlobs"
-            >WipeBlobs - wipe using nice "blob"-like patterns Works well with a
-            short Advance time</option
-          >
-          <option value="WipeBrightness1"
-            >WipeBrightness1 - wipe based on the current slide's
-            brightness</option
-          >
-          <option value="WipeBrightness2"
-            >WipeBrightness2 - wipe based on the next slide's brightness</option
-          >
-          <option value="WipeCenterIn"
-            >WipeCenterIn - wipe from the corners inwards</option
-          >
-          <option value="WipeCenterOut"
-            >WipeCenterOut - wipe from the center outwards</option
-          >
-          <option value="WipeClouds"
-            >WipeClouds - wipe using cloud-like patterns</option
-          >
-          <option value="WipeDown">WipeDown - wipe downwards</option>
-          <option value="WipeDownLeft"
-            >WipeDownLeft - wipe from the upper-right to the lower-left
-            corner</option
-          >
-          <option value="WipeDownRight"
-            >WipeDownRight - wipe from the upper-left to the lower-right
-            corner</option
-          >
-          <option value="WipeLeft">WipeLeft - wipe from right to left</option>
-          <option value="WipeRight">WipeRight - wipe from left to right</option>
-          <option value="WipeUp">WipeUp - wipe upwards</option>
-          <option value="WipeUpLeft"
-            >WipeUpLeft - wipe from the lower-right to the upper-left
-            corner</option
-          >
-          <option value="WipeUpRight"
-            >WipeUpRight - wipe from the lower-left to the upper-right
-            corner</option
-          >
-        </select>
-      </div>
-
-      <div class="form__group">
-        <button>Submit</button>
-      </div>
-    </form>
+      </form>
+    </section>
   </body>
 </html>

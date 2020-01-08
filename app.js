@@ -26,33 +26,14 @@ const getMostRecentSignTimestamp = signNumber => {
   });
 };
 
-const generateThumbnail = async (path, signNumber) => {
-  await pdf(fs.readFileSync(path))
+const generateThumbnail = async (buffer, signNumber) => {
+  await pdf(buffer)
     .then(data =>
       data.pipe(
         fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
       ),
     )
     .then(() => console.log('generated ', signNumber));
-};
-
-const generateAllThumbnails = async () => {
-  for (let signNumber = 1; signNumber <= NUMBER_OF_SIGNS; signNumber++) {
-    try {
-      const timestamp = await getMostRecentSignTimestamp(signNumber);
-      console.log('timestamp=', timestamp);
-      await generateThumbnail(
-        `./archives/sign${signNumber}/${timestamp}.zip`,
-        signNumber,
-      );
-    } catch (e) {
-      console.log('error processing', signNumber, e);
-      fs.copyFileSync(
-        `${__dirname}/public/thumbnails/default.jpg`,
-        `${__dirname}/public/thumbnails/${signNumber}-thumb.jpg`,
-      );
-    }
-  }
 };
 
 app.use(basicAuth({ challenge: true, users: credentials }));
@@ -69,8 +50,8 @@ app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
   if (req.file.mimetype !== 'application/pdf') {
     throw new Error('Uploaded file must be a PDF');
   }
-  fs.writeFileSync(`${req.body.signNumber}.pdf`, req.file.buffer);
-  await generateThumbnail(`./${req.body.signNumber}.pdf`, req.body.signNumber);
+
+  await generateThumbnail(req.file.buffer, req.body.signNumber);
   zip.addFile(req.file.originalname, req.file.buffer);
 
   zip.addFile(
