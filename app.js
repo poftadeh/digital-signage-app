@@ -16,7 +16,6 @@ const NUMBER_OF_SIGNS = 3;
 const getMostRecentSignTimestamp = signNumber => {
   return new Promise((resolve, reject) => {
     fs.readdir(`./archives/sign${signNumber}`, (err, files) => {
-      console.log('err=', err, 'files=', files);
       if (err) {
         reject(err);
       } else {
@@ -33,7 +32,6 @@ const generateThumbnail = async (buffer, signNumber) => {
         fs.createWriteStream(`./public/thumbnails/${signNumber}-thumb.jpg`),
       ),
     )
-    .then(() => console.log('generated ', signNumber));
 };
 
 app.get('/', basicAuth({ challenge: true, users: credentials }));
@@ -46,7 +44,6 @@ app.use(express.static('public'));
 app.use(express.json());
 
 app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
-  console.log('FILE=', req.file);
   if (req.file.mimetype !== 'application/pdf') {
     throw new Error('Uploaded file must be a PDF');
   }
@@ -92,7 +89,6 @@ app.get('/update', async (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log('ERROR:', err);
   const { statusCode, status } = err;
   res.status(statusCode || 500).send({
     status: status || 'error',
