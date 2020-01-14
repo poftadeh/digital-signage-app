@@ -8,7 +8,6 @@ const fs = require('fs');
 const credentials = require('./credentials.json');
 
 const app = express();
-const zip = new AdmZip();
 const upload = multer();
 const NUMBER_OF_SIGNS = 3;
 
@@ -43,6 +42,7 @@ app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
   }
 
   await generateThumbnail(req.file.buffer, req.body.signNumber);
+  const zip = new AdmZip();
   zip.addFile(req.file.originalname, req.file.buffer);
 
   zip.addFile(
