@@ -52,7 +52,7 @@ app.post('/upload', upload.single('upload-pdf'), async (req, res) => {
 
   zip.writeZip(
     `./archives/sign${req.body.signNumber}/${moment().format(
-      'YYYYMMDDhhmmss',
+      'YYYYMMDDHHmmss',
     )}.zip`,
   );
 
