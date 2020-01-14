@@ -11,4 +11,4 @@
 
 GET `/` - serves up the web form where PDFs, interval, and transition data may be uploaded for each sign.
 
-POST `/update` - accepts `sign` (an integer from 1-3) and `timestamp` (in `YYYYMMDDhhmmss` format) as query strings. 
+POST `/update` - accepts `sign` (an integer from 1-3) and `timestamp` (in `YYYYMMDDHHmmss` format) as query strings. 
