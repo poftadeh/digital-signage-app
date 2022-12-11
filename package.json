@@ -19,7 +19,7 @@
   "homepage": "https://github.com/poftadeh/digital-signage-app#readme",
   "dependencies": {
     "adm-zip": "^0.4.13",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "express-basic-auth": "^1.2.0",
     "moment": "^2.24.0",
     "multer": "^1.4.2",
